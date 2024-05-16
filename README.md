@@ -1,66 +1,567 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LARAVEL BLADE TEMPLATE
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+## POINT UTAMA
 
-## About Laravel
+### 1. Instalasi
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+-   Minimal PHP versi 8 atau lebih,
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+-   Composer versi 2 atau lebih,
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-   Lalu pada cmd ketikan `composer create-project laravel/laravel=v9.3.8 belajar-laravel-blade-template`.
 
-## Learning Laravel
+---
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### 2. Blade Template
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+-   `Blade` adalah fitur di `Laravel` yang digunakan untuk mempermudah dalam pembuatan tampilan halaman web HTML.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-   Dengan `Blade`, bisa mempermudah membedakan logic aplikasi dengan kode tampilan yang tersimpan didalam folder `resources/view`.
 
-## Laravel Sponsors
+-   Di `Blade` kita bisa membuat _variable_ yang nantinya _variable_ tersebut akan dipanggila untuk menampilkan halaman web.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+-   Cara membuat _variable_ pada `Blade` bisa menggunakan `{{ $nama }}`.
 
-### Premium Partners
+-   Contoh kode sederhana `blade` dan variablenya
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+    ```HTML
+    <html>
 
-## Contributing
+    <head>
+        <title>{{ $name }}</title>
+    </head>
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    <body>
+        <h1>{{ $name }}</h1>
+    </body>
 
-## Code of Conduct
+    </html>
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+-   Setelah membuat _view_ selanjutkan untuk me-render (menampilkan) _view_ tersebut didalam `Router`.
 
-## Security Vulnerabilities
+-   Kode route untuk menampilkan _view_
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    ```PHP
+    Route::get('/hello', function () {
+    return view('hello', [
+        "name" => "Gusti"
+        ]);
+    });
+    ```
 
-## License
+-   Unit test untuk menjalankan _view_
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```PHP
+    public function testHello()
+    {
+        $this->get("/hello")
+            ->assertSeeText("Gusti");
+    }
+    ```
+
+---
+
+### 3. Nested View Directory
+
+-   _View_ juga bisa disimpan didalam directory lagi didalam _views_.
+
+-   Ini bisa memudahkan untuk management _view_ apabila sudah banyak membuat _view_.
+
+-   Dan untuk mengambil _view_ bisa diganti dengan menggunakan `.` (titik), jadi tidak menggunakan `/` (slash) lagi.
+
+-   Kode route dengan menggunakan `.` (titik)
+
+    ```PHP
+    Route::get('/world', function () {
+    return view('hello.world', [
+        "name" => "Gusti"
+        ]);
+    });
+    ```
+
+-   Unit test menjalankan _view_
+
+    ```PHP
+    public function testHelloWorld()
+    {
+        $this->get("/world")
+            ->assertSeeText("Gusti");
+    } // untuk unit test sama saja
+    ```
+
+---
+
+### 4. Test View Tanpa Routing
+
+-   Biasanya digunakan untuk mengirim _email_.
+
+    ```PHP
+     public function testHelloView()
+    {
+        $this->view("hello", ["name" => "Gusti"])
+            ->assertSeeText("Gusti");
+    }
+    ```
+
+---
+
+### 5. Comment
+
+-   `Blade` juga mendukung komentar dengan menggunakan `{{-- isi komentar --}}`.
+
+-   Isi dari komentar tidak akan dieksekusi dan juga tidak ditampilkan di HTML nya.
+
+-   Kode komentar pada `blade`
+
+    ```HTML
+    <html>
+
+    <head>
+        <title>Comment</title>
+    </head>
+
+    <body>
+        {{-- Gusti --}}
+        <h1>Comment</h1>
+    </body>
+
+    </html>
+    ```
+
+-   Unit test `blade` dengan commnet
+
+    ```PHP
+    public function testComment()
+    {
+        $this->view("comment", [])
+            ->assertSeeText("Comment")
+            ->assertDontSeeText("Gusti");
+    }
+    ```
+
+---
+
+### 6. HTML Encoding
+
+-   Saat menggunakan `{{  }}` pada `blade` secara otomatis `blade` akan memanggil _function_ `htmlspecialchars()`, yang memastikan data aman dari tag HTML yang bisa menyebabkan XXS Attack (Cross Site Scripting).
+
+-   Namun jika tetap ingin manampilkan data tanpa di escepe bisa menggunakan `{{ !$variable! }}`.
+
+-   Kode `blade` html-encoding
+
+    ```HTML
+    <html>
+
+    <head>
+        <title>HTML Encoding</title>
+    </head>
+
+    <body>
+        {{-- {!! $name !!} --}}
+        {{ $name }}
+    </body>
+
+    </html>
+    ```
+
+-   Kode route html-encoding
+
+    ```PHP
+    Route::get('/html-encoding', function (\Illuminate\Http\Request $request) {
+    return view("html-encoding", ["name" => $request->input("name")]);
+    });
+    ```
+
+    ![html-endoding](img/html-encoding.png)
+
+-   Hal ini cukup berbahaya apalagi jika parameter tersebut diganti javascript, bisa saja orang mengambil session user.
+
+    ![alertJS](img/alertJS.png)
+
+---
+
+### 7. Disabled Blade
+
+-   `@` Adalah cara untuk menonaktifkan sebagian atau seluruh kode `blade` di dalam template `Laravel`. Ini sering digunakan ketika Anda ingin sementara mengabaikan atau menonaktifkan blok kode tertentu di dalam tampilan Anda.
+
+-   Atau jika ingin menonaktifkan langsung banyak kode `blade` bisa menggunakan `@verbatim` dan diakhiri `@endverbatim`
+
+-   Kode disabled `blade`
+
+    ```HTML
+     <html>
+
+    <body>
+
+        <h1>Hello @{{ $name }}</h1>
+
+
+        @verbatim
+            <p>
+                Hello {{ $name }}
+                Hello {{ $name }}
+                Hello {{ $name }}
+                Hello {{ $name }}
+            </p>
+        @endverbatim
+
+    </body>
+
+    </html>
+
+    ```
+
+-   Unit test disabled `blade`
+
+    ```PHP
+    public function testDisabled()
+    {
+        $this->view("disabled", ["name" => "Gusti"])
+            ->assertDontSeeText("Gusti")
+            ->assertSeeText('Hello {{ $name }}');
+    }
+    ```
+
+---
+
+### 8. If Statement
+
+-   `Blade` juga mendukung percabangan _if_ menggunakan perintah `@` seperti `@if`, `@elseif`.
+
+-   Kode if statement pada `blade`
+
+    ```PHP
+    <html>
+
+    <body>
+        <p>
+            @if (count($hobbies) == 1)
+                I have one hobby!
+            @elseif(count($hobbies) > 1)
+                I have multiple hobbies!
+            @else
+                I don't have any hobbies!
+            @endif
+        </p>
+    </body>
+
+    </html>
+
+    ```
+
+-   Unit test if statement
+
+    ```PHP
+     public function testIf()
+    {
+        $this->view("if", ["hobbies" => []] )
+            ->assertSeeText("I don't have any hobbies!", false);
+
+        $this->view("if", ["hobbies" => ["Coding"]] )
+            ->assertSeeText("I have one hobby!");
+
+        $this->view("if", ["hobbies" => ["Coding", "Gaming"]] )
+            ->assertSeeText("I have multiple hobbies!");
+    }
+    ```
+
+---
+
+### 9. Isset & Empty
+
+-   `Blade` juga memiliki directive `@isset` & `@empty`.
+
+-   `@isset` digunakan untuk mengecek apakah sebuah _variable_ ada dan tidak bernilai _null_.
+
+-   `@empty` digunakan untuk mengecek sebuah _variable_ merupakan _array_ kosong.
+
+-   Kode isset & empty
+
+    ```PHP
+    <html>
+
+    <body>
+
+        <p>
+            @isset($name) // @isset
+                Hello, my name is {{ $name }}
+            @endisset
+        </p>
+
+        <p>
+            @empty($hobbies) // @empty
+                I don't have any hobbies.
+            @endempty
+        </p>
+
+    </body>
+
+    </html>
+    ```
+
+-   Unit test isset & empty
+
+    ```PHP
+
+    public function testIssetAndEmpty()
+    {
+        $this->view("isset-empty", [])
+            ->assertDontSeeText("Hello")
+            ->assertSeeText("I don't have any hobbies.", false);
+
+        $this->view("isset-empty", ["name" => "Gusti"])
+            ->assertSeeText("Hello, my name is Gusti")
+            ->assertSeeText("I don't have any hobbies.", false);
+
+        $this->view("isset-empty", ["name" => "Gusti", "hobbies" => ["Coding"]])
+            ->assertSeeText("Hello, my name is Gusti")
+            ->assertDontSeeText("I don't have any hobbies.", false);
+    }
+    ```
+
+---
+
+### 10. Environment
+
+-   Didalam `blade` kita bisa menggunakan directive `@env(name)` atau `@env([name1, name2])`, untuk mengecek apakah sedang menggunakan environment tersebut atau tidak.
+
+-   Kode `blade` env
+
+    ```HTML
+    <html>
+
+    <body>
+
+        @env('testing')
+        This is test environment
+        @endenv
+
+    </body>
+
+    </html>`
+
+    ```
+
+-   Unit test env
+
+    ```PHP
+     public function testEnv()
+    {
+        $this->view("env", [])
+            ->assertSeeText("This is test environment");
+    }
+    ```
+
+---
+
+### 11. CSS Class
+
+-   Anda dapat menggunakan CSS classes pada elemen HTML dengan cara yang sama seperti yang Anda lakukan dalam HTML biasa.
+
+-   Kode `blade` css class
+
+    ```HTML
+    <html>
+
+    <head>
+        <style>
+            .red {
+                color: red;
+            }
+
+            .bold {
+                font-weight: bold;
+            }
+        </style>
+    </head>
+
+    <body>
+        @foreach ($hobbies as $hobby)
+            <li @class(['red', 'bold' => $hobby['love']])>{{ $hobby['name'] }}</li>
+        @endforeach
+    </body>
+
+    </html>
+    ```
+
+-   Unit test css class
+
+    ```PHP
+    public function testClass()
+    {
+        $this->view("class", ["hobbies" => [
+            [
+                "name" => "Coding",
+                "love" => true
+            ],
+            [
+                "name" => "Gaming",
+                "love" => false
+            ]
+        ]])
+            ->assertSee('<li class="red bold">Coding</li>', false)
+            ->assertSee('<li class="red">Gaming</li>', false);
+    }
+    ```
+
+---
+
+### 12. Include
+
+-   Directive `@include` digunakan untuk mengambil file template di tempat yang berbeda.
+
+-   Kode `blade` yang akan dipanggil
+
+    ```PHP
+    @isset($title)
+    <h1>{{ $title }}</h1>
+    @else
+        <h1>Gusti Alifiraqsha Akbar</h1>
+    @endisset
+
+    // parameter tambahan
+    @isset($description)
+        <p>{{ $description }}</p>
+    @endisset
+    ```
+
+-   Kode `blade` yang memanggil
+
+    ```PHP
+    <html>
+
+    <body>
+        @include('header', ['description' => 'Selamat Datang di Website Kami'])
+        <p>Selamat Datang di Web</p>
+    </body>
+
+    </html>
+    ```
+
+-   Unit test include `blade`
+
+    ```PHP
+    public function testInclude()
+    {
+        $this->view("include", [])
+            ->assertSeeText("Gusti Alifiraqsha Akbar")
+            ->assertSeeText("Selamat Datang di Website Kami")
+            ->assertSeeText("Selamat Datang di Web");
+
+        // test include parameter tambahan
+        $this->view("include", ["title" => "Gusti"])
+            ->assertSeeText("Gusti")
+            ->assertSeeText("Selamat Datang di Website Kami")
+            ->assertSeeText("Selamat Datang di Web");
+    }
+    ```
+
+---
+
+### 13. Include Condition
+
+-   Ini digunakan jika ingin menampilkan directive tertentu,
+
+-   Maka gunakan directive `@if` untuk melakukan pengecekan kondisi, apakah kondisi tertentu terpenuhi atau tidak.
+
+-   Berikut include condition directive
+
+    ![include_condition](img/include_condition.png)
+
+-   kode `blade` include condition
+
+    ```PHP
+    <html>
+
+    <body>
+        @includeWhen($user['owner'], 'header-admin')
+        <p>Selamat Datang {{ $user['name'] }}</p>
+    </body>
+
+    </html>
+    ```
+
+-   unit test include condition
+
+    ```PHP
+    public function testIncludeCondition()
+    {
+        // kondisi ketika owner true,
+        $this->view("include-condition", [
+            "user" => [
+                "name" => "Gusti",
+                "owner" => true
+            ]
+        ])
+            // makan tampilkan "Selamat datang owner"
+            ->assertSeeText("Selamat Datang Owner")
+            ->assertSeeText("Selamat Datang Gusti");
+        // kondisi ketika owner false,
+        $this->view("include-condition", [
+            "user" => [
+                "name" => "Gustii",
+                "owner" => false
+            ]
+        ])
+            // makan jangan tampilkan "Selamat datang owner"
+            ->assertDontSeeText("Selamat Datang Owner")
+            ->assertSeeText("Selamat Datang Gusti");
+    }
+    ```
+
+---
+
+### 14. Each & Once
+
+-   `@each` digunakan untuk mengulangi tampilan `blade` untuk setiap item dalam array atau koleksi. Ini sangat berguna ketika ingin menampilkan beberapa elemen HTML dengan struktur yang sama untuk setiap item dalam array.
+
+-   `@once` digunakan untuk mengambil tampilan `blade` hanya sekali. Ini berguna ketika ingin memasukkan bagian tertentu dari tampilan `blade` tetapi ingin memastikan itu hanya dimasukkan sekali, bahkan jika ingin memasukkan tampilan yang mengandung `@once` beberapa kali.
+
+-   Berikut directive each & once
+
+    ![each_once](img/each_once.png)
+
+-   Contoh kode
+
+    ```PHP
+    <html>
+
+    <body>
+        @each('user', $users, 'user')
+    </body>
+
+    </html>
+    ```
+
+-   Unit test
+
+    ```PHP
+    public function testEach()
+    {
+        $this->view("each", ["users" => [
+            [
+                "name" => "Gusti",
+                "hobbies" => ["Coding", "Gaming"]
+            ],
+            [
+                "name" => "Kiana",
+                "hobbies" => ["Coding", "Gaming"]
+            ]
+        ]])
+        // ini harus berurutan
+            ->assertSeeInOrder([
+                ".red",
+                "Gusti",
+                "Coding",
+                "Gaming",
+                "Kiana",
+                "Coding",
+                "Gaming"
+            ]);
+    }
+    ```
+
+---
+
+### 15.
