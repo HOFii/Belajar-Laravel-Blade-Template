@@ -564,4 +564,98 @@
 
 ---
 
-### 15.
+### 15. Form Diective
+
+-   Digunakan untuk mempermudah dalama membuat form,
+
+-   Kondisi pada form directive merupakan _boolean_ jika _true_, maka secara otomatis directive tersebut akan dijalankan.
+
+-   Detail form directive
+
+    ![form_directive](img/form_directive.png)
+
+-   Kode `blade` form directive
+
+    ```HTML
+    <html>
+
+    <body>
+        <form action="">
+            <input type="checkbox" @checked($user['premium']) value="Premium" /> <br />
+            <input type="text" value="{{ $user['name'] }}" @readonly(!$user['admin']) /> <br />
+        </form>
+    </body>
+
+    </html>
+    ```
+
+-   Unit test form directive
+
+    ```PHP
+    public function testForm()
+    {
+        // kondisi jika admin true
+        $this->view("form", ["user" => [
+            "premium" => true,
+            "name" => "Gusti",
+            "admin" => true
+        ]])
+            ->assertSee("checked")
+            ->assertSee("Gusti")
+            ->assertDontSee("readonly");
+
+        // kondisi jika admin false
+        $this->view("form", ["user" => [
+            "premium" => false,
+            "name" => "Gusti",
+            "admin" => false
+        ]])
+            ->assertDontSee("checked")
+            ->assertSee("Gusti")
+            ->assertSee("readonly");
+    }
+    ```
+
+### 16. CSRF (Cross Site Request Forgery)
+
+-   `Blade` memiliki directive `@csrf` yang bisa digunakan untuk mempermudah dalam menambahkan token CSRF di form kita.
+
+-   Ini berguna saat kita mengirim HTTP post ke aplikasi `laravel` kita, `laravel` akan mengecek token CSRF untuk memastikan bahwa request tersebut benar berasal dari web kita.
+
+-   Kode csrf
+
+    ```HTML
+    <html>
+
+    <body>
+        <form action="" method="post">
+            @csrf
+            <input type="text" name="name">
+            <input type="submit" name="Send">
+        </form>
+    </body>
+
+    </html>
+    ```
+
+-   Unit test csrf
+
+    ```PHP
+    public function testCSRF()
+    {
+        $this->view("csrf", [])
+            ->assertSee("hidden")
+            ->assertSee("_token");
+
+    }
+    ```
+
+---
+
+## PERTANYAAN & CATATAN TAMBAHAN
+
+-   Blade adalah template yang disediakan oleh framework Laravel. Ini digunakan untuk membuat tampilan web aplikasi dengan menggunakan sintaks yang bersih, ekspresif, dan mudah dibaca.
+
+### KESIMPULAN
+
+-
