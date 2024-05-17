@@ -656,6 +656,8 @@
 
 -   Blade adalah template yang disediakan oleh framework Laravel. Ini digunakan untuk membuat tampilan web aplikasi dengan menggunakan sintaks yang bersih, ekspresif, dan mudah dibaca.
 
+---
+
 ### KESIMPULAN
 
 -
